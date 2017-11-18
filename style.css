@@ -1,0 +1,83 @@
+/* NOTE:
+ * Grid layout stuff starts at line 138. 
+ * The stuff before is just boring old CSS to make content look not crappy.
+ */
+
+/*--------------------------------------------------------------
+CSS Reset
+--------------------------------------------------------------*/
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust:     100%;
+}
+
+body {
+    margin: 0;
+}
+
+img {
+    display: block;
+    border: 0;
+    width: 100%;
+    height: auto;
+}
+
+figure {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* Site CSS */
+.header {
+    padding: 30px 0;
+    text-align: center;
+    background: #E91E63;
+    margin-bottom: 40px;
+}
+
+.site-title {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.site-title a {
+    color: #fff;
+}
+
+.site-desc {
+    color: #fafafa;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.content-wrap{
+    margin-bottom: 40px;
+}
+
+.content{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-column-gap: 10px;
+   grid-row-gap: 10px;
+   overflow: hidden;
+}
+
+.pic-wrap img:hover {
+ transform: scale(1.3) translateY(30px);
+ transition: ease-in all 0.5s;
+}
+
+.footer {
+    margin: 0;
+    padding: 10px;
+    background: #00B8D4;
+}
+
+.footer p {
+    margin: 0;
+}

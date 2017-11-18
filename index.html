@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Build with the new CSS Grid Layout</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<div class="wrap">
+		<header class="header">
+			<h1 class="site-title"><a href="#">Finterest Gallery</a></h1>
+			<p class="site-desc">Pinterest like gallery built using the NEW display Grid / Grid layout</p>
+		</header><!-- /.header -->
+
+		<div class="content-wrap">
+			<main class="content">
+			</main>
+		</div><!-- /.content-wrap -->
+
+		<footer class="footer">
+			<p>&copy; 2017 by Septian Ahmad Fujianto</p>
+		</footer><!-- /.footer -->
+	</div><!-- /.wrap -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			axios.get("https://api.unsplash.com/photos?per_page=12&client_id=e773aef1f3e98577ad88894dceff6ebfdcedff8a5de1361b486e5ef131d9044e")
+			.then((response) => {
+				var contentImg = '';
+				response.data.forEach( function(pic, index) {
+					contentImg += `
+					<figure class="pic-wrap" style="background:url('${pic.urls.small}'); background-size:cover; background-repeat:no-repeat;">
+					 <img  src="${pic.urls.small}" alt="pic" />
+					</figure>`
+				});
+
+				$(".content").html(contentImg);
+			}).catch(err => {
+				console.log(err);
+			})
+		})
+	</script>
+</body>
+</html>
