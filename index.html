@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>Build with the new CSS Grid Layout</title>
+	<title>Finterest Gallery</title>
 	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 	<div class="wrap">
 		<header class="header">
 			<h1 class="site-title"><a href="#">Finterest Gallery</a></h1>
-			<p class="site-desc">Pinterest like gallery built using the NEW display Grid / Grid layout</p>
+			<p class="site-desc">Pinterest like gallery developed using the NEW display Grid / Grid layout</p>
 		</header><!-- /.header -->
-
+		
 		<div class="content-wrap">
+			<div class="search-area">
+				<input onkeydown = "if (event.keyCode == 13) document.getElementById('btnSearch').click()" type="text" class="search-box" name="search" id="search" value="" placeholder="Search images">
+				<button class="btn btn-search" id="btnSearch" onclick="doSearchImage()">Search</button>
+			</div>
+			
 			<main class="content">
 			</main>
 		</div><!-- /.content-wrap -->
-
+		
 		<footer class="footer">
 			<p>&copy; 2017 by Septian Ahmad Fujianto</p>
 		</footer><!-- /.footer -->
@@ -24,21 +29,55 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
 	<script>
+		function doSearchImage() {
+			let search = document.querySelector("#search").value;
+			console.log(search);
+			
+			if (search.length > 2) {
+				axios.get("https://api.unsplash.com//search/photos/?query="+search+"&per_page=12&client_id=e773aef1f3e98577ad88894dceff6ebfdcedff8a5de1361b486e5ef131d9044e")
+				.then((response) => {
+					var contentImg = '';
+					console.log(response);
+					
+					response.data.results.forEach(function (pic, index) {
+						contentImg += `
+						<figure class="pic-wrap" style="background:url('${pic.urls.small}'); background-size:cover; background-repeat:no-repeat;">
+							<img  src="${pic.urls.small}" alt="pic" />
+						</figure>`
+					});
+					
+					$(".content").html(contentImg);
+				}).catch(err => {
+					alert("Error loading image");
+					
+					console.log(err);
+				})
+			} else {
+				alert("Keyword must be more than 2 characters.")
+			}
+		}
+		
 		$(document).ready(function() {
-			axios.get("https://api.unsplash.com/photos?per_page=12&client_id=e773aef1f3e98577ad88894dceff6ebfdcedff8a5de1361b486e5ef131d9044e")
-			.then((response) => {
-				var contentImg = '';
-				response.data.forEach( function(pic, index) {
-					contentImg += `
-					<figure class="pic-wrap" style="background:url('${pic.urls.small}'); background-size:cover; background-repeat:no-repeat;">
-					 <img  src="${pic.urls.small}" alt="pic" />
-					</figure>`
-				});
-
-				$(".content").html(contentImg);
-			}).catch(err => {
-				console.log(err);
-			})
+			function loadGallery() {
+				axios.get("https://api.unsplash.com/photos?per_page=12&client_id=e773aef1f3e98577ad88894dceff6ebfdcedff8a5de1361b486e5ef131d9044e")
+				.then((response) => {
+					var contentImg = '';
+					response.data.forEach(function (pic, index) {
+						contentImg += `
+						<figure class="pic-wrap" style="background:url('${pic.urls.small}'); background-size:cover; background-repeat:no-repeat;">
+							<img  src="${pic.urls.small}" alt="pic" />
+						</figure>`
+					});
+					
+					$(".content").html(contentImg);
+				}).catch(err => {
+					alert("Error loading image");
+					
+					console.log(err);
+				})
+			}
+			
+			loadGallery();
 		})
 	</script>
 </body>
